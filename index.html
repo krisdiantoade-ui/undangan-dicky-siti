@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan — Dicky & Siti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: linear-gradient(135deg, #FF6B9D, #FF9A6C, #FFD166, #06D6A0, #4CC9F0, #A78BFA, #FF6B9D);
+    background-size: 400% 400%;
+    animation: bgShift 8s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Quicksand', sans-serif;
+    padding: 24px 16px;
+    overflow-x: hidden;
+  }
+
+  @keyframes bgShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* floating emoji particles */
+  .floaters { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .floater {
+    position: absolute;
+    animation: floatUp linear infinite;
+    opacity: 0;
+    font-size: 20px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 0.8; }
+    100% { transform: translateY(-10vh) rotate(25deg) scale(1.1); opacity: 0; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    width: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 4px white,
+      0 0 0 8px rgba(255,107,157,0.4),
+      0 20px 60px rgba(0,0,0,0.2);
+    animation: fadeUp 1s cubic-bezier(.22,1,.36,1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(50px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ── MUSIC BUTTON ── */
+  .music-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #FF6B9D, #FF9A6C);
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255,107,157,0.5);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .music-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(255,107,157,0.6); }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 4px 20px rgba(255,107,157,0.5); }
+    50%      { box-shadow: 0 4px 32px rgba(255,107,157,0.8), 0 0 0 8px rgba(255,107,157,0.15); }
+  }
+  .music-btn.playing { animation: spin 3s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(160deg, #FF6B9D 0%, #FF9A6C 25%, #FFD166 50%, #06D6A0 75%, #4CC9F0 100%);
+    background-size: 300% 300%;
+    animation: headerShift 6s ease infinite;
+    padding: 48px 36px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  @keyframes headerShift {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+  }
+
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.25) 0%, transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(255,255,255,0.15) 0%, transparent 50%);
+  }
+
+  .bismillah {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: white;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    margin-bottom: 6px;
+    position: relative;
+    animation: glowWhite 3s ease-in-out infinite;
+  }
+  @keyframes glowWhite {
+    0%,100% { text-shadow: 0 2px 12px rgba(0,0,0,0.2); }
+    50%     { text-shadow: 0 2px 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.3); }
+  }
+
+  .bismillah-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .header-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .header-divider::before, .header-divider::after {
+    content: ''; flex: 1; height: 1.5px;
+    background: rgba(255,255,255,0.5);
+  }
+  .header-divider span { color: white; font-size: 18px; }
+
+  .wedding-label {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .couple-names {
+    font-family: 'Dancing Script', cursive;
+    font-size: 42px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.15;
+    text-shadow: 0 3px 16px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .couple-names .amp {
+    font-size: 30px;
+    display: block;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.2;
+  }
+
+  /* ── TOP BANNER ── */
+  .top-band {
+    background: linear-gradient(90deg, #A78BFA, #F472B6, #FB923C, #34D399, #60A5FA, #A78BFA);
+    background-size: 300% 100%;
+    animation: bandMove 4s linear infinite;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  @keyframes bandMove {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 300% 0%; }
+  }
+
+  /* ── BODY ── */
+  .body {
+    background: linear-gradient(180deg, #fff 0%, #FFF5FC 40%, #F0FBFF 100%);
+    padding: 32px 36px;
+  }
+
+  .greeting {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #FF6B9D;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 2px dashed #FFD6EA;
+  }
+
+  .intro-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 2;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  /* ── EVENT CARD ── */
+  .event-card {
+    background: linear-gradient(135deg, #FFF0F8 0%, #FFF8E8 33%, #E8F8FF 66%, #F0FFE8 100%);
+    border-radius: 20px;
+    padding: 24px 22px;
+    margin: 0 0 24px;
+    border: 2.5px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(255,107,157,0.1);
+  }
+  .event-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    border: 2.5px solid transparent;
+    background: linear-gradient(135deg, #FF6B9D, #FFD166, #06D6A0, #4CC9F0, #A78BFA) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .event-card::before {
+    content: '🎊';
+    position: absolute; top: 12px; right: 16px;
+    font-size: 28px; opacity: 0.5;
+  }
+
+  .venue-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #FF6B9D;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .venue-name {
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(135deg, #FF6B9D, #FF9A6C, #FFD166);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 18px;
+    line-height: 1.2;
+  }
+
+  .event-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .detail-box {
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+  }
+  .detail-box:nth-child(1) { background: linear-gradient(135deg, #FFE4F5, #FFD6B0); border: 2px solid #FFB3D1; }
+  .detail-box:nth-child(2) { background: linear-gradient(135deg, #D4F5FF, #D4FFE8); border: 2px solid #6DD5FA; }
+
+  .detail-icon { font-size: 20px; margin-bottom: 4px; }
+
+  .detail-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #FF9A6C;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .detail-value {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.3;
+  }
+
+  .time-val { font-size: 20px; color: #FF6B9D; }
+
+  /* ── ADDRESS ── */
+  .address-box {
+    background: linear-gradient(135deg, #EDE8FF, #D4F5FF);
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 2px solid #A78BFA;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(167,139,250,0.15);
+  }
+  .address-label {
+    font-size: 9px; letter-spacing: 3px;
+    color: #FF9A6C; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .address-text {
+    font-size: 13px; color: #444; line-height: 1.7;
+  }
+
+  /* ── MAPS ── */
+  .maps-wrap {
+    margin: 14px 0 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 3px solid #06D6A0;
+    box-shadow: 0 4px 20px rgba(6,214,160,0.2);
+  }
+  .maps-wrap iframe {
+    width: 100%; height: 200px;
+    display: block; border: none;
+  }
+  .maps-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(90deg, #06D6A0, #4CC9F0);
+    color: white; font-size: 13px; font-weight: 700;
+    padding: 11px 16px;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+  }
+  .maps-btn:hover { opacity: 0.88; }
+
+  /* ── CLOSING ── */
+  .closing {
+    font-size: 14px;
+    color: #666;
+    line-height: 2;
+    text-align: center;
+    margin: 24px 0 0;
+  }
+
+  .health-note {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #2D8A6A;
+    text-align: center;
+    margin: 16px 0;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #D4FFE8, #D4F5FF);
+    border-radius: 14px;
+    border: 2px dashed #06D6A0;
+  }
+
+  .note-small {
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    margin: 12px 0;
+    font-style: italic;
+  }
+
+  .deco-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin: 20px 0;
+    font-size: 18px; opacity: 0.6;
+  }
+
+  .thank-you {
+    font-size: 13px; color: #888;
+    text-align: center; margin-bottom: 6px;
+  }
+
+  .salam-penutup {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #FF6B9D;
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 8px 0 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: linear-gradient(135deg, #FF6B9D, #FF9A6C, #FFD166, #06D6A0, #4CC9F0, #A78BFA);
+    background-size: 300% 100%;
+    animation: bandMove 6s linear infinite;
+    padding: 24px 36px;
+    text-align: center;
+  }
+  .footer-names {
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  .footer-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 420px) {
+    .body { padding: 24px 20px; }
+    .couple-names { font-size: 34px; }
+    .event-details { gap: 8px; }
+    .venue-name { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floaters" id="floaters"></div>
+
+<!-- Music toggle button -->
+<button class="music-btn" id="musicBtn" title="Putar / Pause musik">🎵</button>
+
+<!-- Hidden YouTube player for Tulus - Teman Hidup -->
+<div id="yt-container" style="position:fixed;width:0;height:0;overflow:hidden;pointer-events:none;z-index:-1;">
+  <div id="yt-player"></div>
+</div>
+
+<div class="card">
+
+  <!-- RAINBOW BAND -->
+  <div class="top-band">✨ Undangan Pernikahan ✨ Dicky & Siti ✨ 30 Mei 2026 ✨</div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="bismillah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+    <div class="bismillah-sub">Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang</div>
+
+    <div class="header-divider"><span>💕</span></div>
+
+    <div class="wedding-label">✨ Pernikahan ✨</div>
+    <div class="couple-names">
+      Dicky Ramadhani
+      <span class="amp">&amp;</span>
+      Siti Asiah
+    </div>
+
+    <div class="header-divider" style="margin-top:20px"><span>🌸</span></div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <div class="greeting">Assalamu'alaikum Warahmatullahi Wabarakatuh</div>
+
+    <div class="intro-text">
+      Tanpa mengurangi rasa hormat, perkenankan kami mengundang
+      <strong>Bapak/Ibu/Saudara/i</strong> untuk menghadiri acara pernikahan kami. 💖<br><br>
+      Berikut informasi lengkap acara yang kami selenggarakan:
+    </div>
+
+    <!-- EVENT CARD -->
+    <div class="event-card">
+      <div class="venue-label">🍜 Lokasi Acara</div>
+      <div class="venue-name">KINGRAMYEON88</div>
+
+      <div class="event-details">
+        <div class="detail-box">
+          <div class="detail-icon">📅</div>
+          <div class="detail-label">Tanggal</div>
+          <div class="detail-value">30 Mei<br>2026</div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-icon">⏰</div>
+          <div class="detail-label">Waktu</div>
+          <div class="detail-value time-val">11.00<br>–<br>13.00</div>
+        </div>
+      </div>
+
+      <div class="address-box">
+        <div class="address-label">📍 Alamat Lengkap</div>
+        <div class="address-text">
+          Ruko Madison Downtown SHC 06 / No. 09<br>
+          <strong>Kota Wisata Cibubur</strong>
+        </div>
+      </div>
+
+      <!-- GOOGLE MAPS -->
+      <div class="maps-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.1234!2d106.9345!3d-6.3812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698f8cb22aaef9%3A0x8a8b6e8b6e8b6e8b!2sRuko+Madison+Downtown+Kota+Wisata+Cibubur!5e0!3m2!1sid!2sid!4v1716200000000!5m2!1sid!2sid"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Lokasi Kingramyeon88">
+        </iframe>
+        <a class="maps-btn"
+           href="https://www.google.com/maps/search/Ruko+Madison+Downtown+SHC+06+Kota+Wisata+Cibubur"
+           target="_blank" rel="noopener">
+          🗺️ &nbsp;Buka di Google Maps
+        </a>
+      </div>
+    </div>
+
+    <div class="closing">
+      Merupakan suatu kebahagiaan bagi kami apabila<br>
+      Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu. 🙏
+    </div>
+
+    <div class="health-note">
+      🌿 Mohon selalu jaga kesehatan dan hadir tepat pada waktu yang telah ditentukan.
+    </div>
+
+    <div class="note-small">
+      * Undangan hanya dibagikan melalui pesan ini *
+    </div>
+
+    <div class="deco-row">🌸 💕 🎊 💕 🌸</div>
+
+    <div class="thank-you">Terima kasih banyak atas perhatian dan kehadiran Bapak/Ibu/Saudara/i.</div>
+    <div class="salam-penutup">Wassalamu'alaikum Warahmatullahi Wabarakatuh</div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-names">Dicky Ramadhani &amp; Siti Asiah</div>
+    <div class="footer-sub">✨ With Love ✨</div>
+  </div>
+
+</div>
+
+<script>
+  // Floating emojis
+  const emojis = ['💕','🌸','✨','🌺','💖','🎊','🌷','💗','🎉','🌼','🎀','🦋'];
+  const cont = document.getElementById('floaters');
+  for (let i = 0; i < 22; i++) {
+    const el = document.createElement('div');
+    el.className = 'floater';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (7 + Math.random() * 9) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    el.style.fontSize = (13 + Math.random() * 16) + 'px';
+    cont.appendChild(el);
+  }
+
+  // YouTube IFrame API — Tulus - Teman Hidup (dt4Ueda_h6Y)
+  let player, playing = false;
+  const btn = document.getElementById('musicBtn');
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+      videoId: 'dt4Ueda_h6Y',
+      playerVars: { autoplay: 1, loop: 1, playlist: 'dt4Ueda_h6Y', controls: 0, mute: 0 },
+      events: {
+        onReady: (e) => {
+          e.target.setVolume(70);
+          e.target.playVideo();
+          playing = true;
+          btn.textContent = '🎶';
+          btn.classList.add('playing');
+        }
+      }
+    });
+  }
+
+  btn.addEventListener('click', () => {
+    if (!player) return;
+    if (playing) {
+      player.pauseVideo();
+      playing = false;
+      btn.textContent = '🎵';
+      btn.classList.remove('playing');
+    } else {
+      player.playVideo();
+      playing = true;
+      btn.textContent = '🎶';
+      btn.classList.add('playing');
+    }
+  });
+
+  // Load YouTube API
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+</script>
+
+</body>
+</html>
